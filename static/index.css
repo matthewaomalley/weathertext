@@ -1,0 +1,68 @@
+#backgroundVideo {
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    opacity: 75%;
+}
+
+.title {
+    font-family: "russo";
+    font-size: 30px;
+}
+
+.subtitle {
+    font-family: "wancho";
+    font-size: 15px;
+}
+.mainBox {
+    position: absolute;
+    margin: auto;
+    top: 30%;
+    left: 0;
+    right: 0;
+    padding-bottom: 20px;
+    width: 30%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 10px black;
+    opacity: 85%;
+}
+
+.InputBox {
+    font-family: "wancho";
+    padding: 5px;
+    font-size: 40px;
+    border: none;
+    border-bottom: 2px solid grey;
+    
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.submitButton {
+    font-family: "wancho";
+    border: none;
+    padding: 15px;
+    background-color: #1f6bdc;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 900;
+    color: white;
+}
+
+@font-face {
+    font-family: 'russo';
+    src: url(fonts/russo.ttf)
+}
+
+@font-face {
+    font-family: 'wancho';
+    src: url(fonts/wancho.ttf)
+}
