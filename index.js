@@ -28,18 +28,14 @@ var appIni = fb.initializeApp({
 var firebaseDB = fb.database()
 
 // Cron schedule calls the function to call API and send msg every day at 8
-//theCron.schedule("0 8 * * * *", () => {
-//theCron.schedule("*/1 * * * * *", () => {
-  //getDogFact(); })
-
-// testing main functionality. -- will have cron doing it's job here --
+theCron.schedule("0 8 * * * *", () => {
+  startIt(); })
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-allEncompass();
-function allEncompass() {
+function startIt() {
   let userNum = "";
   let userZip = "";
   
