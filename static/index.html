@@ -13,17 +13,67 @@
     </video>
 
     <body>
+        <!-- main elements of site -->
         <div class = "mainBox">
             <p class = "title">WeatherText<br><span class = "subtitle">Enter your phone 
-                number/city and click submit (include +1) </span></p>
+                number, name, zip code and click submit (include +1) </span></p>
+
             <input class = "InputBox" type = "text" id = "numInput"
             placeholder = "+12345678910" size = "12" maxlength = "12" name = "numBox">
-            <input class = "InputBox" type = "text" id = "cityInput"
-            placeholder = "Chicago" size = "12" maxlength = "20" name = "citBox">
-            <div style = "padding-top: 25px">
-                <input class = "submitButton" type = "submit" value = "Submit"></form>
+
+            <div style = "padding-top: 20px">
+                <input class = "InputBoxName" type = "text" id = "firstNameInput"
+                placeholder = "First Name" size = "10" maxlength = "20">
+                    <input class = "InputBoxName" type = "text" id = "lastNameInput"
+                    placeholder = "Last Name" size = "10" maxlength = "20">
+
+                <div style = "padding-top: 20px">
+                    <input class = "InputBox" type = "text" id = "zipInput"
+                    placeholder = "Zip Code" size = "8" maxlength = "5" name = "zipBox">
+                    <div style = "padding-top: 20px">
+                        <input class = "submitButton" type = "submit" onclick = "sendInfo()" value = "Submit"></input>
             </div> 
         </div>
+
+        <p class = "unsubClick"><a href = "/unsubscribe">Unsubscribe</a></p>
     </body>
+
+    <script>
+
+        // simple input validation
+        async function sendInfo() {
+
+            let num = document.getElementById("numInput").value
+            let fname = document.getElementById("firstNameInput").value
+            let lname = document.getElementById("lastNameInput").value
+            let zip = document.getElementById("zipInput").value
+
+            // simple input validation
+            if ((num == "") || (fname == "") || (lname == "") || (zip == "")){
+                alert("One or more fields are not complete")
+            }
+            if ((isNaN(zip) == true) || (zip.length < 5)) {
+                alert("Zipcode must be a 5-digit number")
+            }
+            if ((isNaN(num) == true) || (!num.includes("+1")) || (num.length < 12)){
+                alert("Phone number must start with '+1' and have 12 total digits ex. +12345678910")
+            } else {
+                // if data is fine, send the user info to the server
+                const fetchString = "/grabInfo?number="+num+"&fname="+fname+"&lname="+lname+
+                "&zipcode="+zip
+                const response = await fetch(fetchString)
+                const responseText = await response.text()
+                if (responseText) {
+                    // if successful, clear fields
+                    document.getElementById("numInput").value = "";
+                    document.getElementById("firstNameInput").value = "";
+                    document.getElementById("lastNameInput").value = "";
+                    document.getElementById("zipInput").value = "";
+                    alert("Success! Account created.")
+                    //alert("Success! Account created.")
+                }
+            }
+        }
+    </script>
 
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+    <html lang = 'en'>
+
+    <head>
+        <meta charset = 'UTF-8'>
+        <title>WeatherText</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href = "index.css">
+    </head>
+
+    <video autoplay muted loop id = "backgroundVideo">
+        <source src = "video/sky.mp4" type = "video/mp4">
+    </video>
+
+    <body>
+        <!-- main elements of site -->
+        <div class = "mainBox">
+            <p class = "title">WeatherText<br><span class = "subtitle">Please enter your
+                phone number & confirm to unsubscribe from this service.</span></p>
+
+            <input class = "InputBox" type = "text" id = "numInput"
+            placeholder = "+12345678910" size = "12" maxlength = "12" name = "numBox">
+
+            <div style = "padding-top: 20px">
+                <input class = "submitButton" type = "submit" onclick = "unsub()" value = "Unsubscribe"></input>
+            </div>
+
+            <p class = "unsubClick"><a href = "/">Return</a></p>
+        </div>
+
+    </body>
+
+    <script>
+        
+        async function unsub() {
+
+            // input validation
+            let num = document.getElementById("numInput").value
+            if ((num == "") || (isNaN(num) == true) || (!num.includes("+1")) || (num.length < 12)){
+                alert("Phone number must start with '+1' and have 12 total digits ex. +12345678910")
+            } else {
+                let text = "Are you sure you'd like Unsubscribe?\nClick OK to submit or Cancel"
+                if (confirm(text) == true) {
+                    // if we get a response, then send success message
+                    const fetchString = "/removeUser?number="+num
+                    const response = await fetch(fetchString)
+                    const responseText = await response.text()
+                    if (responseText) {
+                        document.getElementById("numInput").value = "";
+                        alert("If the number you entered was in our database, it is now removed. Thank you.")
+                    }
+                }
+            }
+        }
+    </script>
+
+</html>

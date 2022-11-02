@@ -20,10 +20,10 @@
 .mainBox {
     position: absolute;
     margin: auto;
-    top: 30%;
+    top: 27%;
     left: 0;
     right: 0;
-    padding-bottom: 20px;
+    padding-bottom: 0;
     width: 30%;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
@@ -35,10 +35,29 @@
 .InputBox {
     font-family: "wancho";
     padding: 5px;
+    text-align: center;
     font-size: 40px;
     border: none;
     border-bottom: 2px solid grey;
-    
+}
+
+.InputBoxName {
+    font-family: "wancho";
+    text-align: center;
+    padding: 5px;
+    font-size: 30px;
+    border: none;
+    border-bottom: 2px solid grey;
+}
+
+.unsubClick {
+    padding-top: 15px;
+    font-family: wancho;
+    font-size: 12px;
+}
+
+.unsubHov:hover {
+    cursor: pointer
 }
 
 textarea:focus, input:focus{
