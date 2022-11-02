@@ -28,7 +28,7 @@ var appIni = fb.initializeApp({
 var firebaseDB = fb.database()
 
 // Cron schedule calls the function to call API and send msg every day at 8
-theCron.schedule("0 8 * * * *", () => {
+theCron.schedule("0 8 * * *", () => {
   startIt(); })
 
 function sleep(time) {
@@ -125,7 +125,10 @@ function sendIt(data, city, userNum) {
 // function that sends a welcome message when a user registers
 function sendWelc(firstName, number) {
 
-  let theMessage = "Welcome to WeatherText " + firstName + "!"
+  let theMessage = "Welcome to WeatherText " + firstName + "! You will receive a" +
+  " WeatherText every morning at 8:00 A.M.\n\nReply STOP to unsubscribe, or visit" +
+  " our website."
+
   var numbersToMessage = [number]
   
   // send the message
@@ -144,7 +147,6 @@ function sendWelc(firstName, number) {
 const express = require('express')
 const app = express()
 var url = require('url');
-const { waitForDebugger } = require('inspector');
 app.use(express.static(__dirname + '/static'))
 const port = process.env.PORT || 8080;
 

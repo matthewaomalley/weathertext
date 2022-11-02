@@ -94,7 +94,7 @@ textarea:focus, input:focus{
 
 @media screen and (max-width: 360px), (max-width: 390px) {
     .mainBox {
-        top: 15%;
+        top: 5%;
         width: 75%;
     }
     .InputBox {
@@ -104,4 +104,18 @@ textarea:focus, input:focus{
         font-size: 14px;
         padding: none;
     }
+}
+
+@media screen and (max-width: 1600px) {
+    .mainBox {
+        top: 15%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .mainBox {
+        top: 15%;
+        width: 55%;
+    }
+
 }
