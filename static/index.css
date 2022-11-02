@@ -8,9 +8,13 @@
     opacity: 75%;
 }
 
-.title {
+.theTitle {
     font-family: "russo";
     font-size: 30px;
+}
+
+.padIt {
+    padding-top: 20px;
 }
 
 .subtitle {
@@ -23,7 +27,9 @@
     top: 27%;
     left: 0;
     right: 0;
-    padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
     width: 30%;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
@@ -84,4 +90,18 @@ textarea:focus, input:focus{
 @font-face {
     font-family: 'wancho';
     src: url(fonts/wancho.ttf)
+}
+
+@media screen and (max-width: 360px), (max-width: 390px) {
+    .mainBox {
+        top: 15%;
+        width: 75%;
+    }
+    .InputBox {
+        font-size: 30px;
+    }
+    .subtitle {
+        font-size: 14px;
+        padding: none;
+    }
 }

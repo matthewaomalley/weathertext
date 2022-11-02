@@ -87,3 +87,17 @@ textarea:focus, input:focus{
     font-family: 'wancho';
     src: url(fonts/wancho.ttf)
 }
+
+@media screen and (max-width: 360px), (max-width: 390px) {
+    .mainBox {
+        top: 15%;
+        width: 75%;
+    }
+    .InputBox {
+        font-size: 30px;
+    }
+    .subtitle {
+        font-size: 14px;
+        padding: none;
+    }
+}

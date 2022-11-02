@@ -15,24 +15,30 @@
     <body>
         <!-- main elements of site -->
         <div class = "mainBox">
-            <p class = "title">WeatherText<br><span class = "subtitle">Enter your phone 
+            <p class = "theTitle">WeatherText<br><span class = "subtitle">Enter your phone 
                 number, name, zip code and click submit (include +1) </span></p>
+
 
             <input class = "InputBox" type = "text" id = "numInput"
             placeholder = "+12345678910" size = "12" maxlength = "12" name = "numBox">
 
-            <div style = "padding-top: 20px">
+            <div class = "padIt">
                 <input class = "InputBoxName" type = "text" id = "firstNameInput"
                 placeholder = "First Name" size = "10" maxlength = "20">
+
+                
                     <input class = "InputBoxName" type = "text" id = "lastNameInput"
                     placeholder = "Last Name" size = "10" maxlength = "20">
 
-                <div style = "padding-top: 20px">
+                <div class = "padIt">
                     <input class = "InputBox" type = "text" id = "zipInput"
                     placeholder = "Zip Code" size = "8" maxlength = "5" name = "zipBox">
-                    <div style = "padding-top: 20px">
+
+                    <div class = "padIt">
                         <input class = "submitButton" type = "submit" onclick = "sendInfo()" value = "Submit"></input>
-            </div> 
+            
+                </div>
+            
         </div>
 
         <p class = "unsubClick"><a href = "/unsubscribe">Unsubscribe</a></p>
