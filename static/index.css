@@ -106,16 +106,3 @@ textarea:focus, input:focus{
     }
 }
 
-@media screen and (max-width: 1600px) {
-    .mainBox {
-        top: 15%;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    .mainBox {
-        top: 15%;
-        width: 55%;
-    }
-
-}
