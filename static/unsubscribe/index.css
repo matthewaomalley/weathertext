@@ -88,6 +88,13 @@ textarea:focus, input:focus{
     src: url(fonts/wancho.ttf)
 }
 
+@media screen and (max-width: 1600px) {
+    .mainBox {
+        top: 10%;
+        width: 40%;
+    }
+}
+
 @media screen and (max-width: 360px), (max-width: 390px) {
     .mainBox {
         top: 5%;
