@@ -27,26 +27,22 @@ var appIni = fb.initializeApp({
 // create firebase instance
 var firebaseDB = fb.database()
 
-// Cron schedule calls the function to call API and send msg every day at 8
-theCron.schedule("0 8 * * *", () => {
+// Cron schedule calls the function to call API and send msg every day at 7
+theCron.schedule("0 7 * * *", () => {
   startIt(); })
-
-function sleep(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
 
 function startIt() {
   let userNum = "";
   let userZip = "";
   
-  // load data from firebase
+  // load data from firebase and send a call every second
   firebaseDB.ref(`users/`).once('value').then((snapshot) => {
-    Object.values(snapshot.val()).forEach(val => {
-      sleep(2000).then(() => {  // sleep 2 seconds between each due to api call limitations
+    Object.values(snapshot.val()).forEach((val, i) => {
+      setTimeout(() => {
         userNum = (val["num"]).trim();
         userZip = (val["zip"]).trim();
         callZip(userNum, userZip)
-      });
+      }, i * 1000);
     });
   });
 }
@@ -94,7 +90,7 @@ function sendIt(data, city, userNum) {
   let weatherDesc = (currWeather["description"]);
 
   // include 'a' for thunderstorm weather so it is grammatically correct
-  if ((weatherCode >= 200 && weatherCode <= 232) || (weatherCode == 800)) {
+  if ((weatherCode >= 200 && weatherCode <= 232) || (weatherCode == 800) || (weatherCode == 801)) {
     weatherDesc = "a " + weatherDesc;
   }
 
