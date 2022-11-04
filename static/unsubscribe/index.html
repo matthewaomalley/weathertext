@@ -74,7 +74,7 @@
                     document.getElementById("numNoAns").classList.add("redBorder");
                     alert("Phone number must have 10 total digits ex. 1234567890")
                 } else {
-                    num = "+1" + num
+                    num = "1" + num
                     let text = "Are you sure you'd like Unsubscribe?\nClick OK to submit or Cancel"
                     if (confirm(text) == true) { // if they say yes, send it to the server
                         const fetchString = "/removeUser?number="+num

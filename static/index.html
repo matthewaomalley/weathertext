@@ -111,7 +111,7 @@
                     alert("Phone number must be a 10-digit number\nex. 1234567890")
                 } else {
                     // if data is fine, send the user info to the server
-                    num = "+1" + num
+                    num = "1" + num
                     const fetchString = "/grabInfo?number="+num+"&fname="+fname+"&lname="+lname+
                     "&zipcode="+zip
                     const response = await fetch(fetchString)
