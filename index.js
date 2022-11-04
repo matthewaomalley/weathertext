@@ -28,8 +28,9 @@ var appIni = fb.initializeApp({
 var firebaseDB = fb.database()
 
 // Cron schedule calls the function to call API and send msg every day at 7
-theCron.schedule("0 7 * * *", () => {
-  startIt(); })
+theCron.schedule("0 7 * * *", function() {
+  startIt();
+});
 
 function startIt() {
   let userNum = "";
@@ -122,7 +123,7 @@ function sendIt(data, city, userNum) {
 function sendWelc(firstName, number) {
 
   let theMessage = "Welcome to WeatherText " + firstName + "! You will receive a" +
-  " WeatherText every morning at 8:00 A.M.\n\nReply STOP to unsubscribe, or visit" +
+  " WeatherText every morning at 7:00 A.M.\n\nReply STOP to unsubscribe, or visit" +
   " our website."
 
   var numbersToMessage = [number]
@@ -167,8 +168,8 @@ app.get('/grabInfo', (request, response) => {
     });
 });
 
+// function that removes user and user data from database
 app.get('/removeUser', (request, response) => {
-  // remove user from firebase database and return success message TESTING THIS TO SEE IF WE CAN DELETE ENTIRE THING BY NUM REFERENCE
   var inputs = url.parse(request.url, true).query
   const number = (inputs.number)
   firebaseDB.ref(`users/` + number).remove()
@@ -176,6 +177,15 @@ app.get('/removeUser', (request, response) => {
     response.send("Successfully unsubscribed.")
   })
 });
+
+/*// function that updates user account with new zipcode (not implemented in front end yet)
+app.get('/updateZip', (request, response) => {
+  var inputs = url.parse(request.url, true).query
+  const number = (inputs.number)
+  firebaseDB.ref('users/' + number).set({
+    zip: newZip
+  });
+});*/
 
 // listen on the port
 app.listen(port, () => console.log(

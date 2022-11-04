@@ -12,39 +12,64 @@
         <source src = "video/sky.mp4" type = "video/mp4">
     </video>
 
+
     <body>
         <!-- main elements of site -->
         <div class = "mainBox">
-            <p class = "theTitle">WeatherText<br><span class = "subtitle">Enter your phone 
-                number, name, zip code and click submit (include +1) </span></p>
 
+            <!-- title and subtitle elements -->
+            <div style = "padding: 8px;">
+            <h1 class = "toptitle">WeatherText</h1>
+            <p class = "topsubtitle">Sign up for WeatherText! Enter your first & last name, 
+                phone number, and zipcode to receive daily forecasts for your area!</p>
+            </div>
 
-            <input class = "InputBox" type = "text" id = "numInput"
-            placeholder = "+12345678910" size = "12" maxlength = "12" name = "numBox">
+            <!-- table for input elements -->
+            <table class = "inputTable">
+                <tr>
+                    <td class = "cell" id = "fNameNoAns"><input class = "InputBox" type = "text" id = "firstNameInput"
+                        placeholder = "First name" maxlength = "100" oninput = "removeRed(`fNameNoAns`); removeWarning()"></td>
+                    <td class = "cell" id = "lNameNoAns"><input class = "InputBox" type = "text" id = "lastNameInput"
+                        placeholder = "Last name" maxlength = "100" oninput = "removeRed(`lNameNoAns`); removeWarning()"></td>
+                </tr>
+                <tr>
+                    <td colspan = "2" class = "cell" id = "numNoAns"><input class = "InputBox" type = "text" id = "numInput"
+                        placeholder = "Phone Number" maxlength = "10" oninput = "removeRed(`numNoAns`); removeWarning()"></td>
+                </tr>
+                <tr>
+                    <td colspan = "2" class = "cell" id = "zipNoAns"><input class = "InputBox" type = "text" id = "zipInput"
+                        placeholder = "Zip Code" maxlength = "5" oninput = "removeRed(`zipNoAns`); removeWarning()"></td>
+                </tr>
+                <tr>
+                    <td colspan = "2"><input class = "submitButton" type = "submit" onclick = "sendInfo()" value = "Submit"></input></td>
+                </tr>
+            </table>
 
-            <div class = "padIt">
-                <input class = "InputBoxName" type = "text" id = "firstNameInput"
-                placeholder = "First Name" size = "10" maxlength = "20">
-
-                
-                    <input class = "InputBoxName" type = "text" id = "lastNameInput"
-                    placeholder = "Last Name" size = "10" maxlength = "20">
-
-                <div class = "padIt">
-                    <input class = "InputBox" type = "text" id = "zipInput"
-                    placeholder = "Zip Code" size = "8" maxlength = "5" name = "zipBox">
-
-                    <div class = "padIt">
-                        <input class = "submitButton" type = "submit" onclick = "sendInfo()" value = "Submit"></input>
-            
-                </div>
-            
-        </div>
-
-        <p class = "unsubClick"><a href = "/unsubscribe">Unsubscribe</a></p>
-    </body>
+            <p class = "warningMsg showNone" id = "warnMsg">You may not leave the highlighted fields blank</p>
+            <a class = "unsub" href = "https://weathertext.azurewebsites.net/unsubscribe/" target = "_blank">Unsubscribe</a>
 
     <script>
+
+        function removeRed(theElem) {
+            // remove the red border from the input when the input is typed into
+            document.getElementById(theElem).classList.remove("redBorder")
+        }
+
+        function removeWarning() {
+            let fName = document.getElementById("fNameNoAns")
+            let lName = document.getElementById("lNameNoAns")
+            let num = document.getElementById("numNoAns")
+            let zip = document.getElementById("zipNoAns")
+
+            // if ALL of the input's do not have a red border, remove the warning message
+            if ((!fName.classList.contains("redBorder")) && (!lName.classList.contains("redBorder"))
+            && (!num.classList.contains("redBorder")) && (!zip.classList.contains("redBorder"))) {
+                document.getElementById("warnMsg").classList.add("showNone");
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         // simple input validation
         async function sendInfo() {
@@ -55,31 +80,54 @@
             let zip = document.getElementById("zipInput").value
 
             // simple input validation
-            if ((num == "") || (fname == "") || (lname == "") || (zip == "")){
-                alert("One or more fields are not complete")
+            if (fname == "") {
+                document.getElementById("fNameNoAns").classList.add("redBorder");
+                document.getElementById("warnMsg").classList.remove("showNone");
             }
-            if ((isNaN(zip) == true) || (zip.length < 5)) {
-                alert("Zipcode must be a 5-digit number")
+            if (lname == "") {
+                document.getElementById("lNameNoAns").classList.add("redBorder")
+                document.getElementById("warnMsg").classList.remove("showNone");
             }
-            if ((isNaN(num) == true) || (!num.includes("+1")) || (num.length < 12)){
-                alert("Phone number must start with '+1' and have 12 total digits ex. +12345678910")
-            } else {
-                // if data is fine, send the user info to the server
-                const fetchString = "/grabInfo?number="+num+"&fname="+fname+"&lname="+lname+
-                "&zipcode="+zip
-                const response = await fetch(fetchString)
-                const responseText = await response.text()
-                if (responseText) {
-                    // if successful, clear fields
-                    document.getElementById("numInput").value = "";
-                    document.getElementById("firstNameInput").value = "";
-                    document.getElementById("lastNameInput").value = "";
-                    document.getElementById("zipInput").value = "";
-                    alert("Success! Account created.")
-                    //alert("Success! Account created.")
+            if (num == "") {
+                document.getElementById("numNoAns").classList.add("redBorder")
+                document.getElementById("warnMsg").classList.remove("showNone");
+            }
+            if (zip == "") {
+                document.getElementById("zipNoAns").classList.add("redBorder")
+                document.getElementById("warnMsg").classList.remove("showNone");
+            }
+            if (removeWarning() == true) {
+                if (((isNaN(zip) == true) || (zip.length < 5)) && ((isNaN(num) == true) || (num.length < 10))) {
+                    document.getElementById("zipNoAns").classList.add("redBorder")
+                    document.getElementById("numNoAns").classList.add("redBorder")
+                    alert("Zipcode must be a 5-digit number ex. 12345\nand phone number" +
+                    " must be a 10-digit number\nex. 1234567890")
+                    
+                } else if ((isNaN(zip) == true) || (zip.length < 5)) {
+                    document.getElementById("zipNoAns").classList.add("redBorder")
+                    alert("Zipcode must be a 5-digit number\nex. 12345")
+                } else if ((isNaN(num) == true) || (num.length < 10)){
+                    document.getElementById("numNoAns").classList.add("redBorder")
+                    alert("Phone number must be a 10-digit number\nex. 1234567890")
+                } else {
+                    // if data is fine, send the user info to the server
+                    num = "+1" + num
+                    const fetchString = "/grabInfo?number="+num+"&fname="+fname+"&lname="+lname+
+                    "&zipcode="+zip
+                    const response = await fetch(fetchString)
+                    const responseText = await response.text()
+                    if (responseText) {
+                        // if successful, clear fields
+                        document.getElementById("numInput").value = "";
+                        document.getElementById("firstNameInput").value = "";
+                        document.getElementById("lastNameInput").value = "";
+                        document.getElementById("zipInput").value = "";
+                        alert("Success! Account created.")
+                    }
                 }
-            }
+            }   
         }
+        
     </script>
 
 </html>

@@ -15,43 +15,83 @@
     <body>
         <!-- main elements of site -->
         <div class = "mainBox">
-            <p class = "title">WeatherText<br><span class = "subtitle">Please enter your
-                phone number & confirm to unsubscribe from this service.</span></p>
 
-            <input class = "InputBox" type = "text" id = "numInput"
-            placeholder = "+12345678910" size = "12" maxlength = "12" name = "numBox">
-
-            <div style = "padding-top: 20px">
-                <input class = "submitButton" type = "submit" onclick = "unsub()" value = "Unsubscribe"></input>
+            <!-- title and subtitle elements -->
+            <div style = "padding: 8px;">
+            <h1 class = "toptitle">WeatherText</h1>
+            <p class = "topsubtitle">Sign up for WeatherText! Enter your first & last name, 
+                phone number, and zipcode to receive daily forecasts for your area!</p>
             </div>
 
-            <p class = "unsubClick"><a href = "/">Return</a></p>
-        </div>
+            <!-- table for input elements -->
+            <table class = "inputTable">
+                <tr>
+                    <td colspan = "2" class = "cell" id = "numNoAns"><input class = "InputBox" type = "text" id = "numInput"
+                        placeholder = "Phone Number" maxlength = "10" oninput = "removeRed(`numNoAns`); removeWarning()"></td>
+                </tr>
+                <tr>
+                    <td><input class = "submitButton" type = "submit" onclick = "unsub()" value = "Unsubscribe"></input></td>
+                </tr>
+            </table>
+
+            <p class = "warningMsg showNone" id = "warnMsg">You may not leave the highlighted field blank</p>
+            <p class = "successMsg showNone" id = "succMsg">Success! You have been unsubscribed.</p>
+            <a class = "unsub" href = "https://weathertext.azurewebsites.net/">Return</a>
 
     </body>
 
+
     <script>
+
+        function removeRed(theElem) {
+            // remove the red border from the input when the input is typed into
+            document.getElementById(theElem).classList.remove("redBorder")
+        }
+
+        function removeWarning() {
+            let num = document.getElementById("numNoAns")
+
+            if (!num.classList.contains("redBorder")) {
+                document.getElementById("warnMsg").classList.add("showNone");
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         
         async function unsub() {
 
-            // input validation
             let num = document.getElementById("numInput").value
-            if ((num == "") || (isNaN(num) == true) || (!num.includes("+1")) || (num.length < 12)){
-                alert("Phone number must start with '+1' and have 12 total digits ex. +12345678910")
-            } else {
-                let text = "Are you sure you'd like Unsubscribe?\nClick OK to submit or Cancel"
-                if (confirm(text) == true) {
-                    // if we get a response, then send success message
-                    const fetchString = "/removeUser?number="+num
-                    const response = await fetch(fetchString)
-                    const responseText = await response.text()
-                    if (responseText) {
-                        document.getElementById("numInput").value = "";
-                        alert("If the number you entered was in our database, it is now removed. Thank you.")
+
+            if (num == "") {
+                document.getElementById("numNoAns").classList.add("redBorder");
+                document.getElementById("warnMsg").classList.remove("showNone");
+            }
+
+            if (removeWarning() == true) {
+                if ((isNaN(num) == true) || (num.length < 10)){
+                    document.getElementById("numNoAns").classList.add("redBorder");
+                    alert("Phone number must have 10 total digits ex. 1234567890")
+                } else {
+                    num = "+1" + num
+                    let text = "Are you sure you'd like Unsubscribe?\nClick OK to submit or Cancel"
+                    if (confirm(text) == true) { // if they say yes, send it to the server
+                        const fetchString = "/removeUser?number="+num
+                        const response = await fetch(fetchString)
+                        const responseText = await response.text()
+                        if (responseText) { // if successful, display success message
+                            document.getElementById("numInput").value = "";
+                            document.getElementById("succMsg").classList.remove("showNone")
+                            setTimeout(function(){
+                                document.getElementById("succMsg").classList.add("showNone");
+                            }, 3000);
+                            
+                        }
                     }
                 }
             }
         }
-    </script>
 
+    </script>
 </html>

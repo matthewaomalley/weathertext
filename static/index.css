@@ -1,3 +1,7 @@
+html {
+    color: #333333;
+}
+
 #backgroundVideo {
     position: absolute;
     z-index: -1;
@@ -8,29 +12,48 @@
     opacity: 75%;
 }
 
-.theTitle {
-    font-family: "russo";
-    font-size: 30px;
+.showNone {
+    display: none;
 }
 
-.padIt {
-    padding-top: 20px;
-}
-
-.subtitle {
-    font-family: "wancho";
+.warningMsg {
+    color: red;
+    font-family: open;
     font-size: 15px;
 }
+
+.unsub {
+    font-size: 12px;
+    font-family: open;
+}
+
+.toptitle {
+    font-size: 35px;
+    color: black;
+    margin-bottom: 0; 
+    margin-top: 5px; 
+    text-align: center;
+    font-family: open;
+}
+
+.topsubtitle {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    font-family: open;
+    font-weight: 600;
+}
+
 .mainBox {
     position: absolute;
     margin: auto;
     top: 27%;
     left: 0;
     right: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    width: 30%;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    width: 25%;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     text-align: center;
@@ -38,22 +61,31 @@
     opacity: 85%;
 }
 
-.InputBox {
-    font-family: "wancho";
-    padding: 5px;
-    text-align: center;
-    font-size: 40px;
-    border: none;
-    border-bottom: 2px solid grey;
+.inputTable {
+    margin-right: auto;
+    border-collapse: separate;
+    border-spacing: 8px;
+    width: 100%;
 }
 
-.InputBoxName {
-    font-family: "wancho";
-    text-align: center;
+.cell {
+    border: 1px solid grey;
+    border-radius: 4px;
     padding: 5px;
-    font-size: 30px;
+    text-align: left;
+}
+
+.redBorder {
+    border: 1px solid red;
+}
+
+.InputBox {
+    font-size: 20px;
     border: none;
-    border-bottom: 2px solid grey;
+    padding: 3px;
+    width: 99%;
+    font-family: open;
+    font-weight: 500;
 }
 
 .unsubClick {
@@ -71,25 +103,34 @@ textarea:focus, input:focus{
 }
 
 .submitButton {
-    font-family: "wancho";
+    font-family: open;
     border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 15px;
     background-color: #1f6bdc;
     font-size: 15px;
     cursor: pointer;
     border-radius: 10px;
-    font-weight: 900;
+    font-weight: 500;
     color: white;
 }
 
-@font-face {
-    font-family: 'russo';
-    src: url(fonts/russo.ttf)
+.submitButton:hover {
+    color: rgb(209, 209, 209);
+    background-color: #1a58b6;
 }
 
+.submitButton:active {
+    background-color: #1a58b6;
+    box-shadow: 0 3px rgb(147, 147, 147);
+    transform: translateY(3px);
+  }
+
+
 @font-face {
-    font-family: 'wancho';
-    src: url(fonts/wancho.ttf)
+    font-family: 'open';
+    src: url(fonts/open.ttf)
 }
 
 
@@ -100,16 +141,9 @@ textarea:focus, input:focus{
     }
 }
 
-@media screen and (max-width: 360px), (max-width: 390px) {
+@media screen and (max-width: 360px), (max-width: 450px) {
     .mainBox {
-        top: 5%;
+        top: 10%;
         width: 75%;
-    }
-    .InputBox {
-        font-size: 30px;
-    }
-    .subtitle {
-        font-size: 14px;
-        padding: none;
     }
 }
