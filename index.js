@@ -28,7 +28,7 @@ var appIni = fb.initializeApp({
 var firebaseDB = fb.database()
 
 // Cron schedule calls the function to call API and send msg every day at 7
-theCron.schedule("0 7 * * *", function() {
+theCron.schedule("0 12 * * *", function() {
   startIt();
 });
 
