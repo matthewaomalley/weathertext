@@ -24,14 +24,19 @@ var appIni = fb.initializeApp({
   appId: process.env.FIREBASE_ID
 });
 
+// Optional interactive mode for testing
+if (process.argv.length == 4) {
+  callZip(process.argv[2], process.argv[3])
+}
+
 // create firebase instance
 var firebaseDB = fb.database()
 
-// Cron schedule calls the function to call API and send msg every day at 7
+// Cron scheduler to start the process at 6 A.M. CST
 theCron.schedule("0 12 * * *", function() {
-  startIt();
-});
+  startIt(); });
 
+// function that reads the database and passes each user's num and zip to next function
 function startIt() {
   let userNum = "";
   let userZip = "";
@@ -48,17 +53,17 @@ function startIt() {
   });
 }
 
-// calls the zip api to return lat, lon, city data
+// calls the zip api to return lat, lon, city data for each number and zipcode from database
 function callZip(userNum, userZip) {
 
   let zipAPI = `https://app.zipcodebase.com/api/v1/search?apikey=${zipKey}&codes=${userZip}&country=US`
 
   fetch(zipAPI)
   .then(resp => resp.json())
-  .then(zipData => getWeather(zipData, userNum, userZip))
+  .then(zipData => getWeather(zipData, userNum, userZip)) // send lat and lon to func that needs it to call weather API
 }
 
-// function that calls the weather API and sends the result to a send function
+// function that uses lat and lon values to get weather data, parses it and sends data to SMS send function
 function getWeather(zipData, userNum, zipcode) {
 
   // create variables from data and send as api arguments
@@ -90,7 +95,7 @@ function sendIt(data, city, userNum) {
   const weatherCode = (currWeather["id"]);
   let weatherDesc = (currWeather["description"]);
 
-  // include 'a' for thunderstorm weather so it is grammatically correct
+  // include 'a' for thunderstorm weather so it is grammatically correct + clear sky description
   if ((weatherCode >= 200 && weatherCode <= 232) || (weatherCode == 800) || (weatherCode == 801)) {
     weatherDesc = "a " + weatherDesc;
   }
@@ -100,8 +105,13 @@ function sendIt(data, city, userNum) {
   let avgTempDay = parseFloat(currDay["temp"]["day"]).toFixed(0)
   let maxTemp = parseFloat(currDay["temp"]["max"]).toFixed(0)
 
+  // city string to determine if city name will have an s at the end or a ', to be grammatically correct.
+  let cityString = ""
+  if (city.charAt(city.length-1) == "s") {
+    cityString = city + "'" } else { cityString = city + "'s" }
+
   // create string with parsed variables and day/date/weather data
-  let theMessage = thisDay + ", " + thisDate + "\n" + city + "'s temp will be " + avgTempDay + "\u00B0 " +
+  let theMessage = thisDay + ", " + thisDate + "\n" + cityString + " temp will be " + avgTempDay + "\u00B0 " +
   "(high " + "of " + maxTemp + "\u00B0 & low of " + minTemp + "\u00B0). Expect " + weatherDesc + "."
   
   // string of messages for the for each function (will always be only one)
@@ -123,7 +133,7 @@ function sendIt(data, city, userNum) {
 function sendWelc(firstName, number) {
 
   let theMessage = "Welcome to WeatherText " + firstName + "! You will receive a" +
-  " WeatherText every morning at 7:00 A.M.\n\nReply STOP to unsubscribe, or visit" +
+  " WeatherText every morning at 6:00 A.M.\n\nReply STOP to unsubscribe, or visit" +
   " our website."
 
   var numbersToMessage = [number]
@@ -177,15 +187,6 @@ app.get('/removeUser', (request, response) => {
     response.send("Successfully unsubscribed.")
   })
 });
-
-/*// function that updates user account with new zipcode (not implemented in front end yet)
-app.get('/updateZip', (request, response) => {
-  var inputs = url.parse(request.url, true).query
-  const number = (inputs.number)
-  firebaseDB.ref('users/' + number).set({
-    zip: newZip
-  });
-});*/
 
 // listen on the port
 app.listen(port, () => console.log(
