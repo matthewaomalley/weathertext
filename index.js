@@ -9,6 +9,8 @@ const authToken = process.env.TWILIO_AUTH_TOKEN
 const weatherKey = process.env.WEATHER_KEY;
 const zipKey = process.env.ZIPCODE_KEY;
 const client = require('twilio')(accountSid, authToken);
+const { MessagingResponse } = require('twilio').twiml;
+const bodyParser = require('body-parser');
 
 // import firebase module
 var fb = require('firebase')
@@ -193,6 +195,26 @@ app.get('/removeUser', (request, response) => {
       response.send("failure")
     }
   });
+});
+
+
+// testing response
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/sms', (req, res) => {
+  const twiml = new MessagingResponse();
+
+  if (req.body.Body == 'hello') {
+    twiml.message('Hi!');
+  } else if (req.body.Body == 'bye') {
+    twiml.message('Goodbye');
+  } else {
+    twiml.message(
+      'No Body param match, Twilio sends this in the request to your server.'
+    );
+  }
+
+  res.type('text/xml').send(twiml.toString());
 });
 
 // listen on the port
