@@ -46,6 +46,7 @@
             </table>
 
             <p class = "warningMsg showNone" id = "warnMsg">You may not leave the highlighted fields blank</p>
+            <p class = "successMsg showNone" id = "succMsg">Success! Your account has been created</p>
             <a class = "unsub" href = "https://weathertext.azurewebsites.net/unsubscribe/" target = "_blank">Unsubscribe</a>
 
     <script>
@@ -122,7 +123,11 @@
                         document.getElementById("firstNameInput").value = "";
                         document.getElementById("lastNameInput").value = "";
                         document.getElementById("zipInput").value = "";
-                        alert("Success! Account created.")
+
+                        document.getElementById("succMsg").classList.remove("showNone")
+                        setTimeout(function(){
+                            document.getElementById("succMsg").classList.add("showNone");
+                        }, 3000);
                     }
                 }
             }   

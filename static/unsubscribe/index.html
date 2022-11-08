@@ -19,8 +19,9 @@
             <!-- title and subtitle elements -->
             <div style = "padding: 8px;">
             <h1 class = "toptitle">WeatherText</h1>
-            <p class = "topsubtitle">Sign up for WeatherText! Enter your first & last name, 
-                phone number, and zipcode to receive daily forecasts for your area!</p>
+            <p class = "topsubtitle">Enter your phone number and click Unsubscribe
+                 to be removed from our sending list. You can re-enroll at any time!
+            </p>
             </div>
 
             <!-- table for input elements -->
@@ -35,6 +36,7 @@
             </table>
 
             <p class = "warningMsg showNone" id = "warnMsg">You may not leave the highlighted field blank</p>
+            <p class = "warningMsg showNone" id = "invalidNumMsg">ERROR: This number is not in our system</p>
             <p class = "successMsg showNone" id = "succMsg">Success! You have been unsubscribed.</p>
             <a class = "unsub" href = "https://weathertext.azurewebsites.net/">Return</a>
 
@@ -53,12 +55,12 @@
 
             if (!num.classList.contains("redBorder")) {
                 document.getElementById("warnMsg").classList.add("showNone");
+                document.getElementById("invalidNumMsg").classList.add("showNone");
                 return true;
             } else {
                 return false;
             }
         }
-
         
         async function unsub() {
 
@@ -80,13 +82,15 @@
                         const fetchString = "/removeUser?number="+num
                         const response = await fetch(fetchString)
                         const responseText = await response.text()
-                        if (responseText) { // if successful, display success message
+                        if (responseText == "success") { // if successful, display success message
                             document.getElementById("numInput").value = "";
                             document.getElementById("succMsg").classList.remove("showNone")
                             setTimeout(function(){
                                 document.getElementById("succMsg").classList.add("showNone");
                             }, 3000);
-                            
+                        } else if (responseText == "failure") {
+                            document.getElementById("numNoAns").classList.add("redBorder");
+                            document.getElementById("invalidNumMsg").classList.remove("showNone")
                         }
                     }
                 }

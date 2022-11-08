@@ -22,6 +22,12 @@ html {
     font-size: 15px;
 }
 
+.successMsg {
+    color: green;
+    font-family: open;
+    font-size: 15px;
+}
+
 .unsub {
     font-size: 12px;
     font-family: open;

@@ -145,7 +145,7 @@ function sendWelc(firstName, number) {
       from: '+18315746652',
       to: number
     })
-    .then(message =>  console.log("Welcome message sent to:" + number))
+    .then(message =>  console.log("Welcome message sent to: " + number))
     .done();
   });
 }
@@ -182,10 +182,17 @@ app.get('/grabInfo', (request, response) => {
 app.get('/removeUser', (request, response) => {
   var inputs = url.parse(request.url, true).query
   const number = (inputs.number)
-  firebaseDB.ref(`users/` + number).remove()
-  .then(function() {
-    response.send("Successfully unsubscribed.")
-  })
+
+  firebaseDB.ref(`users/${number}`).once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      firebaseDB.ref(`users/` + number).remove()
+      .then(function() {
+        response.send("success")
+      });
+    } else {
+      response.send("failure")
+    }
+  });
 });
 
 // listen on the port
