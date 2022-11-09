@@ -197,23 +197,25 @@ app.get('/removeUser', (request, response) => {
   });
 });
 
-
-// testing response
+// SMS responses
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/sms', (req, res) => {
   const twiml = new MessagingResponse();
+  let userRes = req.body.Body;
 
-  if (req.body.Body == 'hello') {
-    twiml.message('Hi!');
-  } else if (req.body.Body == 'bye') {
+  if ((userRes == 'STOP') || (userRes == "Stop") || (userRes == "stop")) {
+    twiml.message('You have been unsubscribed.\nVisit our website to re-enroll: ' +
+    'https://weathertext.azurewebsites.net');
+  } else if ((!isNaN(userRes) == true) && (userRes.length == 5)) {
+    console.log(req.Body)
+
+
     twiml.message('Goodbye');
   } else {
     twiml.message(
-      'No Body param match, Twilio sends this in the request to your server.'
-    );
-  }
-
+      'Text STOP to unsubscribe or enter a zipcode to get the weather');
+}
   res.type('text/xml').send(twiml.toString());
 });
 
