@@ -208,10 +208,10 @@ app.post('/sms', (req, res) => {
     twiml.message('You have been unsubscribed.\nVisit our website to re-enroll: ' +
     'https://weathertext.azurewebsites.net');
   } else if ((!isNaN(userRes) == true) && (userRes.length == 5)) {
-    console.log(req.Body)
+    
 
 
-    twiml.message('Goodbye');
+    twiml.message(req.body);
   } else {
     twiml.message(
       'Text STOP to unsubscribe or enter a zipcode to get the weather');
