@@ -1,12 +1,12 @@
-WEATHERTEXT
+# WEATHERTEXT
 
-Description:
+## Description:
 Web app that lets users sign up to receive daily weather updates
-based on their zip code.
+based on their zip code. Pulls from various API's to get information and send messages.
 
-Version: 
-1.0
+## Version: 
+Version 1.0
 
-Disclaimer:
+## Disclaimer:
 I do not own the fonts, nor the background video; all rights belong to their
 respective owners.
